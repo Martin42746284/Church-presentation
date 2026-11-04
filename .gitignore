@@ -39,3 +39,5 @@ tools/composer.phar
 *.njsproj
 *.sln
 *.sw?
+
+*.lovable
