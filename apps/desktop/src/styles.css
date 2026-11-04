@@ -1,0 +1,34 @@
+@import "tw-animate-css";
+@import "../../../src/styles.css";
+
+/*
+ * The desktop renderer reuses the web app's design tokens and slide styles
+ * (single source of truth), and adds its own components to the Tailwind scan.
+ */
+@source "./";
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/*
+ * Phase 7 — readability controls of the projection settings. The shared slide
+ * rules are never edited (D6): the desktop only narrows them through the
+ * `--slide-*` variables that `SlideSurface` sets on the slide wrapper.
+ */
+.slide-stage .slide-lyrics {
+  width: 100%;
+  font-size: calc(84px * var(--slide-font-scale, 1) * var(--slide-content-fit, 1));
+  text-align: var(--slide-align, center);
+  text-shadow: var(--slide-text-shadow, 0 4px 24px oklch(0 0 0 / 0.5));
+  overflow-wrap: anywhere;
+}
+
+.slide-stage .slide-source {
+  font-size: calc(28px * var(--slide-font-scale, 1));
+}

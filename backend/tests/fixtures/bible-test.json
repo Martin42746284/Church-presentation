@@ -1,0 +1,27 @@
+{
+    "translation": "Traduction de test",
+    "books": [
+        {
+            "name": "Genèse",
+            "abbr": "gn",
+            "chapters": [
+                [
+                    "Au commencement, Dieu créa les cieux et la terre.",
+                    "La terre était informe et vide : il y avait des ténèbres à la surface de l'abîme.",
+                    "Dieu dit : Que la lumière soit ! Et la lumière fut."
+                ],
+                ["Ceci est le second chapitre.", "L'amour de Dieu demeure."]
+            ]
+        },
+        {
+            "name": "Jean",
+            "abbr": "jn",
+            "chapters": [
+                [
+                    "Au commencement était la Parole, et la Parole était avec Dieu.",
+                    "En lui était la vie, et la vie était la lumière des hommes."
+                ]
+            ]
+        }
+    ]
+}

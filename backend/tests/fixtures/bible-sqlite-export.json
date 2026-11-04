@@ -1,0 +1,33 @@
+{
+  "type": "database",
+  "name": "MG'65",
+  "objects": [
+    {
+      "type": "table",
+      "name": "books",
+      "columns": [
+        {"name": "book_number", "type": "NUMERIC"},
+        {"name": "short_name", "type": "TEXT"},
+        {"name": "long_name", "type": "TEXT"}
+      ],
+      "rows": [
+        [10, "Gen", "Genesisy"]
+      ]
+    },
+    {
+      "type": "table",
+      "name": "verses",
+      "columns": [
+        {"name": "book_number", "type": "NUMERIC"},
+        {"name": "chapter", "type": "NUMERIC"},
+        {"name": "verse", "type": "NUMERIC"},
+        {"name": "text", "type": "TEXT"}
+      ],
+      "rows": [
+        [10, 1, 1, "<n>[Fampidirana]</n> Tamin’ny voalohany."],
+        [10, 1, 3, "Ary nisy mazava."],
+        [10, 2, 1, "Vita ny lanitra sy ny tany."]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+node_modules
+dist
+dist-electron
+.output
+.vinxi
+pnpm-lock.yaml
+package-lock.json
+bun.lock
+routeTree.gen.ts
+
+# Backend (Laravel) — third-party and generated files
+backend/vendor
+backend/storage
+backend/database/*.sqlite
+backend/public/build
+backend/bootstrap/cache
+
+# Local PHP tooling output (see tools/setup-php-ext.sh)
+tools/php-ext
+tools/composer.phar

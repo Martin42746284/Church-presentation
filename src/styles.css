@@ -1,0 +1,77 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-live: var(--live);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.17 0.012 60);
+  --foreground: oklch(0.95 0.015 80);
+  --card: oklch(0.22 0.014 60);
+  --card-foreground: oklch(0.95 0.015 80);
+  --popover: oklch(0.22 0.014 60);
+  --popover-foreground: oklch(0.95 0.015 80);
+  --primary: oklch(0.8 0.13 80);
+  --primary-foreground: oklch(0.18 0.02 60);
+  --secondary: oklch(0.28 0.015 60);
+  --secondary-foreground: oklch(0.95 0.015 80);
+  --muted: oklch(0.26 0.012 60);
+  --muted-foreground: oklch(0.7 0.02 70);
+  --accent: oklch(0.32 0.03 70);
+  --accent-foreground: oklch(0.95 0.015 80);
+  --destructive: oklch(0.62 0.2 27);
+  --destructive-foreground: oklch(0.98 0 0);
+  --live: oklch(0.63 0.22 25);
+  --border: oklch(0.32 0.015 60);
+  --input: oklch(0.32 0.015 60);
+  --ring: oklch(0.8 0.13 80);
+  --slide-bg: radial-gradient(ellipse at 50% 30%, oklch(0.3 0.06 260), oklch(0.12 0.03 260));
+  --slide-fg: oklch(0.98 0.005 90);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body { background-color: var(--color-background); color: var(--color-foreground); font-family: var(--font-sans); }
+  h1, h2, h3 { font-family: var(--font-display); }
+}
+
+.slide-stage {
+  position: absolute; width: 1920px; height: 1080px; left: 50%; top: 50%;
+  margin-left: -960px; margin-top: -540px; transform-origin: center;
+  background: var(--slide-bg); color: var(--slide-fg);
+  display: flex; align-items: center; justify-content: center; padding: 120px;
+}
+.slide-stage[data-blank="black"] { background: oklch(0 0 0); }
+.slide-stage[data-blank="white"] { background: oklch(1 0 0); }
+.slide-lyrics { width: 100%; font-family: var(--font-display); font-size: calc(84px * var(--slide-content-fit, 1)); line-height: 1.3; text-align: center; white-space: pre-line; overflow-wrap: anywhere; text-shadow: 0 4px 24px oklch(0 0 0 / 0.5); }
+.slide-source { position: absolute; bottom: 48px; right: 64px; font-size: 28px; opacity: 0.6; }
