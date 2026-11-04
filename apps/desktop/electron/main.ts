@@ -186,10 +186,17 @@ function applySettingsPatch(patch: unknown): AppSettings {
 
 function targetDisplay(): Display {
   const all = screen.getAllDisplays();
-  return all.find((d) => d.id === selectedDisplayId) ?? screen.getPrimaryDisplay();
+  const primary = screen.getPrimaryDisplay();
+  const selected = all.find((d) => d.id === selectedDisplayId);
+  if (selected) return selected;
+  if (selectedDisplayId === null) {
+    return all.find((d) => d.id !== primary.id) ?? primary;
+  }
+  return primary;
 }
 
 function targetExists(): boolean {
+  if (selectedDisplayId === null) return true;
   return screen.getAllDisplays().some((d) => d.id === selectedDisplayId);
 }
 
@@ -202,7 +209,7 @@ function listDisplays(): DisplayInfo[] {
     height: d.size.height,
     scaleFactor: d.scaleFactor,
     primary: d.id === primary.id,
-    selected: d.id === selectedDisplayId,
+    selected: d.id === targetDisplay().id,
   }));
 }
 
@@ -419,7 +426,7 @@ function targetDisplayToInfo(): DisplayInfo {
     height: d.size.height,
     scaleFactor: d.scaleFactor,
     primary: d.id === primary.id,
-    selected: d.id === selectedDisplayId,
+    selected: d.id === targetDisplay().id,
   };
 }
 
@@ -433,6 +440,7 @@ function registerIpc(): void {
 
 function watchDisplays(): void {
   screen.on("display-added", () => {
+    if (selectedDisplayId === null) placeProjectionOnTarget();
     if (targetLost && targetExists()) {
       targetLost = false;
       emitProjectionEvent({ type: "display-restored", displayId: selectedDisplayId ?? undefined });
@@ -450,6 +458,8 @@ function watchDisplays(): void {
         projectionWindow.setBounds(screen.getPrimaryDisplay().bounds);
       }
       emitProjectionEvent({ type: "display-lost", displayId: display.id });
+    } else if (selectedDisplayId === null) {
+      placeProjectionOnTarget();
     }
     broadcastDisplays();
   });

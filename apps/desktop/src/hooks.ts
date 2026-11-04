@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { church } from "@app/church-api";
 import { getApiBase, subscribeApiBase } from "@app/api";
 import { useStore } from "@/lib/store";
@@ -136,6 +136,24 @@ export function useProjection(): {
 /** Mirrors the LIVE state of the shared store into the projection window. */
 export function useProjectionBridge(): void {
   const live = useStore((state) => state.live);
+  const liveRef = useRef(live);
+  liveRef.current = live;
+
+  useEffect(() => {
+    const bridge = church;
+    if (!bridge) return;
+    return bridge.onProjectionEvent((event) => {
+      if (event.type !== "opened") return;
+      const current = liveRef.current;
+      void bridge.setProjectionState({
+        slides: current.slides,
+        index: current.index,
+        blank: current.blank,
+        lyricsVisible: current.lyricsVisible !== false,
+      });
+    });
+  }, []);
+
   useEffect(() => {
     void church?.setProjectionState({
       slides: live.slides,

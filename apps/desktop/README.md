@@ -92,7 +92,8 @@ Points clés :
   par exemple `Jaona 3:1-19`, sélectionne la même plage qu’un Maj+clic et la projette
   automatiquement. Les passages peuvent aussi être ajoutés au programme. Dans l'aperçu LIVE, `Ctrl+W` ou le
   bouton _Masquer paroles_ masque/affiche le texte du slide sans masquer sa référence.
-  `F5` démarre le diaporama sur l’écran sélectionné ; son bouton de lancement est affiché en icône seule.
+  `F5` démarre le diaporama sur l’écran sélectionné ; sans choix enregistré, le deuxième écran est
+  utilisé automatiquement (l’écran principal s’il n’y en a qu’un). Son bouton de lancement est affiché en icône seule.
 - **Instantanés** : un élément `song` ou `verse` emporte un `snapshot` (titres, paroles,
   versets, référence, traduction) figé à l'ajout — un programme passé se projette même
   si le chant est ensuite modifié ou supprimé.
@@ -100,6 +101,7 @@ Points clés :
   handler par canal via un type mappé (`Record<keyof typeof IPC, …>`) — un
   canal oublié casse la compilation, le preload n'expose que ces canaux.
 - **Écrans** : `displays:list/select`, écoute `display-added/removed/metrics`.
+  Sans écran cible choisi, la projection bascule automatiquement sur l’écran secondaire lorsqu'il est branché.
   Si l'écran cible disparaît, la fenêtre est garée sur l'écran principal en
   mode fenêtré et la console affiche « écran introuvable » + bouton
   _Réactiver la projection_.
