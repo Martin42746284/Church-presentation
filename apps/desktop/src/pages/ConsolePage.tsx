@@ -14,6 +14,7 @@ import {
   Power,
   RefreshCw,
 } from "lucide-react";
+import { AppAppearanceToggle } from "@app/components/AppAppearanceToggle";
 import { goLive, setIndex, toggleLiveLyrics, useStore } from "@/lib/store";
 import { toSlides } from "@/lib/slides";
 import { church, isDesktop } from "@app/church-api";
@@ -555,6 +556,7 @@ export function ConsolePage({ onOpenWorkspace }: { onOpenWorkspace: () => void }
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          <AppAppearanceToggle />
           {!isDesktop && (
             <span className="rounded-md border border-destructive px-3 py-1.5 text-xs font-semibold text-destructive">
               Exécution en navigateur : commandes Electron indisponibles

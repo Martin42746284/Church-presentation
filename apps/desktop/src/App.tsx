@@ -3,7 +3,7 @@ import { ConsolePage } from "@app/pages/ConsolePage";
 import { ProjectionPage } from "@app/pages/ProjectionPage";
 import { setApiBase } from "@app/api";
 import { church } from "@app/church-api";
-import { startSettingsSync } from "@app/settings-store";
+import { startSettingsSync, useSettings } from "@app/settings-store";
 import { WorkspacePage } from "@app/workspace/WorkspacePage";
 
 /**
@@ -12,6 +12,9 @@ import { WorkspacePage } from "@app/workspace/WorkspacePage";
  * click away from it).
  */
 export function App() {
+  const settings = useSettings();
+  const windowParam = new URLSearchParams(window.location.search).get("window");
+
   // Every window follows the settings Electron main owns (phase 7) and knows
   // where the local API lives — the projection window serves media from it.
   useEffect(() => {
@@ -22,7 +25,15 @@ export function App() {
       .catch(() => undefined);
   }, []);
 
-  const windowParam = new URLSearchParams(window.location.search).get("window");
+  useEffect(() => {
+    if (windowParam === "projection") {
+      document.documentElement.removeAttribute("data-app-mode");
+      return;
+    }
+
+    document.documentElement.dataset.appMode = settings.appearance;
+  }, [settings.appearance, windowParam]);
+
   const [view, setView] = useState<"workspace" | "console">("workspace");
 
   if (windowParam === "projection") return <ProjectionPage />;

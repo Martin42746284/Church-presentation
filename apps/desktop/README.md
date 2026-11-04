@@ -45,6 +45,8 @@ Les données utilisateur sont conservées lors de la désinstallation.
 
 Les paroles trop longues sont automatiquement réduites pour tenir dans la zone
 de projection ; les mots trop longs sont également coupés si nécessaire.
+L'espace de travail et la console proposent un mode clair/sombre, mémorisé avec
+les réglages de l'application. Ce choix n'affecte pas l'écran de projection.
 
 Le renderer peut aussi s'ouvrir dans un navigateur (`npm run dev`, sans
 Electron) : l'UI dégrade proprement (pas de sélection d'écran, pas de fenêtre

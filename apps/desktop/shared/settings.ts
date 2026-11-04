@@ -47,7 +47,10 @@ export type Shortcuts = {
   announce: string;
 };
 
+export type AppAppearance = "dark" | "light";
+
 export type AppSettings = {
+  appearance: AppAppearance;
   theme: ThemeSettings;
   announcement: AnnouncementSettings;
   shortcuts: Shortcuts;
@@ -55,12 +58,14 @@ export type AppSettings = {
 
 /** Partial update: every section and every field is optional. */
 export type SettingsPatch = {
+  appearance?: AppAppearance;
   theme?: Partial<ThemeSettings>;
   announcement?: Partial<AnnouncementSettings>;
   shortcuts?: Partial<Shortcuts>;
 };
 
 export const DEFAULT_SETTINGS: AppSettings = {
+  appearance: "light",
   theme: {
     preset: "nuit",
     background: null,
@@ -160,6 +165,10 @@ export function mergeSettings(current: AppSettings, patch: unknown): AppSettings
   if (!isRecord(patch)) return current;
 
   return {
+    appearance:
+      patch.appearance === "light" || patch.appearance === "dark"
+        ? patch.appearance
+        : current.appearance,
     theme: mergeTheme(current.theme, patch.theme),
     announcement: mergeAnnouncement(current.announcement, patch.announcement),
     shortcuts: mergeShortcuts(current.shortcuts, patch.shortcuts),

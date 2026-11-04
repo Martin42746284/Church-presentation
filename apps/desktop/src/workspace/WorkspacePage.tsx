@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AlertTriangle, Monitor, RefreshCw, Settings } from "lucide-react";
+import { AppAppearanceToggle } from "@app/components/AppAppearanceToggle";
 import {
   api,
   setApiBase,
@@ -436,6 +437,7 @@ export function WorkspacePage({ onOpenConsole }: { onOpenConsole: () => void }) 
         </div>
 
         <div className="ml-auto flex flex-wrap items-center gap-2">
+          <AppAppearanceToggle />
           <label className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Monitor size={14} />
             <select

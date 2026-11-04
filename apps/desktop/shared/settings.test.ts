@@ -26,6 +26,13 @@ describe("settings merge", () => {
     expect(next.shortcuts).toEqual(DEFAULT_SETTINGS.shortcuts);
   });
 
+  it("accepts only supported application appearance modes", () => {
+    expect(DEFAULT_SETTINGS.appearance).toBe("light");
+    expect(mergeSettings(clone(), { appearance: "light" }).appearance).toBe("light");
+    expect(mergeSettings(clone(), { appearance: "dark" }).appearance).toBe("dark");
+    expect(mergeSettings(clone(), { appearance: "unknown" }).appearance).toBe("light");
+  });
+
   it("keeps unknown fields out of the result", () => {
     const next = mergeSettings(clone(), {
       theme: { preset: "bleu", evil: true },
@@ -85,6 +92,7 @@ describe("settings merge", () => {
 
   it("round-trips a full settings file read from disk", () => {
     const stored = mergeSettings(clone(), {
+      appearance: "light",
       theme: {
         preset: "blanc",
         background: "fond.png",
