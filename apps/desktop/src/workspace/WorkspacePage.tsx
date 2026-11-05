@@ -575,14 +575,7 @@ export function WorkspacePage({ onOpenConsole }: { onOpenConsole: () => void }) 
           </div>
           <PreviewPanel
             live={live}
-            projectionOpen={projection.open}
-            fullscreen={projection.fullscreen}
             online={Boolean(status?.healthy)}
-            onPrev={() => setIndex(live.index - 1)}
-            onNext={() => setIndex(live.index + 1)}
-            onToggleLyrics={toggleLiveLyrics}
-            onToggleProjection={() => void projection.toggle()}
-            onToggleFullscreen={() => void projection.toggleFullscreen()}
           />
         </div>
       </main>

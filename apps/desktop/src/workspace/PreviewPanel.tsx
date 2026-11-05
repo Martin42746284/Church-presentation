@@ -1,13 +1,4 @@
-import {
-  ChevronLeft,
-  ChevronRight,
-  Eye,
-  EyeOff,
-  Maximize2,
-  Minimize2,
-  Play,
-  X,
-} from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { Badge, Btn, inputClass } from "@app/components/ui";
 import { SlideSurface } from "@app/components/SlideSurface";
 import { useSettings, updateSettings } from "@app/settings-store";
@@ -17,38 +8,21 @@ import type { ProjectionSlide } from "@app/program-slides";
 import type { Live } from "@/lib/store";
 
 /**
- * Right column (bottom): what is on the projector now, what comes next and
- * the transport controls. The projection window receives its state over IPC;
- * the theme and the announcement come from the shared settings (phase 7).
+ * The projection preview and announcement controls. Projection actions remain
+ * available through the keyboard shortcuts shown below.
  */
 export function PreviewPanel({
   live,
-  projectionOpen,
-  fullscreen,
   online,
-  onPrev,
-  onNext,
-  onToggleLyrics,
-  onToggleProjection,
-  onToggleFullscreen,
 }: {
   live: Live;
-  projectionOpen: boolean;
-  fullscreen: boolean;
   online: boolean;
-  onPrev: () => void;
-  onNext: () => void;
-  onToggleLyrics: () => void;
-  onToggleProjection: () => void;
-  onToggleFullscreen: () => void;
 }) {
   const settings = useSettings();
   const keys = settings.shortcuts;
   const announcement = settings.announcement;
 
   const current = live.slides[live.index] as ProjectionSlide | undefined;
-  const last = live.index >= live.slides.length - 1;
-
   return (
     <section className="flex min-h-[250px] flex-1 flex-col overflow-hidden rounded-lg border bg-card">
       <header className="flex items-center justify-between gap-2 border-b px-3 py-2">
@@ -78,68 +52,12 @@ export function PreviewPanel({
       </header>
 
       <div className="min-h-0 flex-1 p-0.5">
-        <div className="flex h-full min-w-0 items-center gap-2">
-          <SlideSurface
-            slide={current}
-            blank={live.blank}
-            showLyrics={live.lyricsVisible !== false}
-            className="aspect-video h-full min-w-0 max-h-full max-w-full flex-none rounded border-2 border-live"
-          />
-          <div className="flex shrink-0 flex-col gap-2">
-            <Btn
-              variant="outline"
-              onClick={onToggleLyrics}
-              title="Afficher ou masquer les paroles (Ctrl+W)"
-              className="h-9 w-9 justify-center p-0"
-            >
-              {live.lyricsVisible === false ? <Eye size={16} /> : <EyeOff size={16} />}
-              <span className="sr-only">
-                {live.lyricsVisible === false ? "Afficher les paroles" : "Masquer les paroles"}
-              </span>
-            </Btn>
-            <Btn
-              variant="outline"
-              onClick={onPrev}
-              disabled={live.index <= 0}
-              title={`Diapositive précédente (${describeKey(keys.prev)})`}
-              className="h-9 w-9 justify-center p-0"
-            >
-              <ChevronLeft size={16} />
-              <span className="sr-only">Diapositive précédente</span>
-            </Btn>
-            <Btn
-              variant="outline"
-              onClick={onNext}
-              disabled={last}
-              title={`Diapositive suivante (${describeKey(keys.next)})`}
-              className="h-9 w-9 justify-center p-0"
-            >
-              <ChevronRight size={16} />
-              <span className="sr-only">Diapositive suivante</span>
-            </Btn>
-            <Btn
-              variant={projectionOpen ? "outline" : "default"}
-              onClick={onToggleProjection}
-              title={projectionOpen ? "Fermer la projection" : "Démarrer le diaporama (F5)"}
-              className="h-9 w-9 justify-center p-0"
-            >
-              {projectionOpen ? <X size={16} /> : <Play size={16} />}
-              <span className="sr-only">
-                {projectionOpen ? "Fermer la projection" : "Démarrer le diaporama"}
-              </span>
-            </Btn>
-            <Btn
-              variant="outline"
-              onClick={onToggleFullscreen}
-              disabled={!projectionOpen}
-              title="Plein écran de la projection"
-              className="h-9 w-9 justify-center p-0"
-            >
-              {fullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-              <span className="sr-only">Plein écran de la projection</span>
-            </Btn>
-          </div>
-        </div>
+        <SlideSurface
+          slide={current}
+          blank={live.blank}
+          showLyrics={live.lyricsVisible !== false}
+          className="aspect-video h-full min-w-0 max-h-full max-w-full rounded border-2 border-live"
+        />
       </div>
 
       <div className="flex items-center gap-1.5 px-3 pb-2">

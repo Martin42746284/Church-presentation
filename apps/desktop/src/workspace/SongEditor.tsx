@@ -49,7 +49,6 @@ export function SongEditor({
   // another song is picked (or the page reloads).
   const [meta, setMeta] = useState<Meta>(() => metaOf(song ?? ({} as LibrarySong)));
   const [lyrics, setLyrics] = useState(song?.lyrics ?? "");
-  const [touched, setTouched] = useState(false);
 
   const draft: LibrarySong | null = song ? { ...song, ...meta, lyrics } : null;
 
@@ -57,9 +56,7 @@ export function SongEditor({
 
   const dirty =
     Boolean(song) &&
-    (touched ||
-      !sameMeta(meta, metaOf(song ?? ({} as LibrarySong))) ||
-      lyrics !== (song?.lyrics ?? ""));
+    (!sameMeta(meta, metaOf(song ?? ({} as LibrarySong))) || lyrics !== (song?.lyrics ?? ""));
   const valid = Boolean(draft && draft.title.trim() && lyrics.trim());
   const slides = draft ? toSlides(lyrics, draft.title, maxLines).length : 0;
 
@@ -70,7 +67,11 @@ export function SongEditor({
           Éditeur de chant
         </h2>
         <span className="flex items-center gap-2 text-xs text-muted-foreground">
-          {dirty && <span className="rounded bg-destructive/20 px-1.5 py-0.5">modifié</span>}
+          {saving ? (
+            <span role="status">Enregistrement…</span>
+          ) : (
+            dirty && <span className="rounded bg-destructive/20 px-1.5 py-0.5">modifié</span>
+          )}
           {slides > 0 && <span>{slides} diapositive(s)</span>}
         </span>
       </header>
@@ -132,10 +133,7 @@ export function SongEditor({
               <textarea
                 className={`${inputClass} min-h-[120px] flex-1 resize-none font-sans text-sm leading-relaxed`}
                 value={lyrics}
-                onChange={(event) => {
-                  setTouched(true);
-                  setLyrics(event.target.value);
-                }}
+                onChange={(event) => setLyrics(event.target.value)}
                 spellCheck={false}
               />
             </Field>
@@ -143,7 +141,7 @@ export function SongEditor({
 
           <footer className="flex shrink-0 flex-wrap gap-2 border-t p-3">
             <Btn onClick={() => onSave(draft)} disabled={!dirty || !valid || saving}>
-              <Save size={14} /> {saving ? "Enregistrement…" : "Enregistrer"}
+              <Save size={14} /> Enregistrer
             </Btn>
             <Btn variant="outline" onClick={onAddToProgram} disabled={!canAddToProgram}>
               <Plus size={14} /> Ajouter au programme
