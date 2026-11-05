@@ -1,6 +1,6 @@
 # apps/desktop — Espace de travail, console et fenêtre de projection
 
-Application de bureau (Electron) de **Church Presentation** : une fenêtre
+Application de bureau (Electron) de **ADD Church Presentaion** : une fenêtre
 _espace de travail_ (bibliothèque de chants, éditeur, programme, aperçu — dans
 l'esprit de VideoPsalm) pilote une fenêtre _projection_ indépendante ouverte en
 plein écran sur l'écran sélectionné ; la _console_ d'administration (backend,
@@ -39,7 +39,7 @@ Bible et chants configurées pour ce projet ainsi que les images du dossier
 `Images with names`. Ces images sont copiées une seule fois dans la bibliothèque
 Médias au premier démarrage, sans remplacer les fichiers déjà présents. Le
 fichier généré est
-`release/Church-Presentation-0.1.0-Setup.exe`. L’installeur utilise l’icône
+`release/ADD-Church-Presentaion-0.1.0-Setup.exe`. L’installeur utilise l’icône
 `build/icon.ico` et installe le runtime Visual C++ requis par PHP si nécessaire.
 Les données utilisateur sont conservées lors de la désinstallation.
 

@@ -311,7 +311,7 @@ async function createAdminWindow(): Promise<void> {
     height: 900,
     minWidth: 980,
     minHeight: 640,
-    title: "Church Presentation — Console",
+    title: "ADD Church Presentaion — Console",
     backgroundColor: "#14110d",
     autoHideMenuBar: true,
     webPreferences: {

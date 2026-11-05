@@ -466,7 +466,7 @@ function findSongsFile(paths: AppPaths): string | null {
   return candidates.find((candidate) => fs.existsSync(candidate)) ?? null;
 }
 
-const DEFAULT_ENV_TEMPLATE = `APP_NAME="Church Presentation"
+const DEFAULT_ENV_TEMPLATE = `APP_NAME="ADD Church Presentaion"
 APP_ENV=production
 APP_KEY=
 APP_DEBUG=false

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Console d'administration et fenêtre de projection (Electron) de Church Presentation.",
+  "description": "Console d'administration et fenêtre de projection (Electron) de ADD Church Presentaion.",
   "main": "dist-electron/main.cjs",
   "scripts": {
     "dev": "node scripts/dev.mjs",
@@ -38,7 +38,7 @@
   },
   "build": {
     "appId": "org.churchpresentation.desktop",
-    "productName": "Church Presentation",
+    "productName": "ADD Church Presentaion",
     "directories": {
       "buildResources": "build-resources",
       "output": "release"
@@ -65,7 +65,7 @@
     ],
     "win": {
       "target": "nsis",
-      "artifactName": "Church-Presentation-${version}-Setup.${ext}",
+      "artifactName": "ADD-Church-Presentaion-${version}-Setup.${ext}",
       "icon": "build/icon.ico"
     },
     "nsis": {
@@ -75,7 +75,7 @@
       "allowToChangeInstallationDirectory": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Church Presentation",
+      "shortcutName": "ADD Church Presentaion",
       "deleteAppDataOnUninstall": false,
       "include": "build-resources/installer.nsh"
     }

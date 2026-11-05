@@ -550,7 +550,7 @@ export function ConsolePage({ onOpenWorkspace }: { onOpenWorkspace: () => void }
     <div className="mx-auto flex h-full min-h-0 max-w-6xl flex-col gap-4 overflow-y-auto p-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-2xl font-semibold">Church Presentation</h1>
+          <h1 className="font-display text-2xl font-semibold">ADD Church Presentaion</h1>
           <p className="text-sm text-muted-foreground">
             Console d'administration — préparation et pilotage de la projection.
           </p>

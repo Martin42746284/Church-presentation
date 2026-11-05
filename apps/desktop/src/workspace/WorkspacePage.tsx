@@ -456,7 +456,7 @@ export function WorkspacePage({ onOpenConsole }: { onOpenConsole: () => void }) 
     <div className="flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden">
       <header className="flex flex-wrap items-center gap-3 border-b px-3 py-2">
         <div className="flex items-baseline gap-2">
-          <h1 className="font-display text-base font-semibold">Church Presentation</h1>
+          <h1 className="font-display text-base font-semibold">ADD Church Presentaion</h1>
           <span className="text-xs text-muted-foreground">Espace de travail</span>
         </div>
 
