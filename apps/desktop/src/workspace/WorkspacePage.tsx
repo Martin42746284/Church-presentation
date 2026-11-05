@@ -12,6 +12,7 @@ import {
   type PassageSelection,
   type ProgramItemInput,
   type ProgramRecord,
+  type SongInput,
 } from "@app/api";
 import { Badge, Btn } from "@app/components/ui";
 import { isDesktop } from "@app/church-api";
@@ -33,6 +34,7 @@ import { PreviewPanel } from "@app/workspace/PreviewPanel";
 import { SlideQueuePanel } from "@app/workspace/SlideQueuePanel";
 import { SongEditor } from "@app/workspace/SongEditor";
 import { SongLibrary } from "@app/workspace/SongLibrary";
+import { readSongImport } from "@app/song-import";
 import { slidesOfItem, slidesOfPassage, type ProjectionSlide } from "@app/program-slides";
 import { goLive, setBlank, setIndex, toggleLiveLyrics, useStore } from "@/lib/store";
 import { toSlides } from "@/lib/slides";
@@ -377,6 +379,32 @@ export function WorkspacePage({ onOpenConsole }: { onOpenConsole: () => void }) 
       setSongs((list) => list.map((entry) => (entry.id === record.id ? record : entry)));
     });
 
+  const importSongs = async (files: File[]) => {
+    const imported: LibrarySong[] = [];
+    const errors: string[] = [];
+    for (const file of files) {
+      let drafts: SongInput[];
+      try {
+        drafts = await readSongImport(file);
+      } catch (error) {
+        errors.push(`${file.name} : ${message(error)}`);
+        continue;
+      }
+
+      for (const draft of drafts) {
+        try {
+          const created = await api.createSong(draft);
+          imported.push(toDomainSong(created));
+        } catch (error) {
+          errors.push(`${file.name} — ${draft.title} : ${message(error)}`);
+        }
+      }
+    }
+
+    if (imported.length > 0) setSongs((list) => [...list, ...imported]);
+    return { imported: imported.length, errors };
+  };
+
   const deleteSong = () => {
     if (!song) return;
     if (!window.confirm(`Supprimer le chant « ${song.title} » ?`)) return;
@@ -533,6 +561,7 @@ export function WorkspacePage({ onOpenConsole }: { onOpenConsole: () => void }) 
               selectedId={songId}
               onSelect={selectSong}
               onCreate={() => void createSong()}
+              onImport={importSongs}
             />
           }
           bible={
@@ -569,10 +598,7 @@ export function WorkspacePage({ onOpenConsole }: { onOpenConsole: () => void }) 
           <div className="flex min-h-0 flex-[0.8] flex-col">
             <SlideQueuePanel slides={live.slides} index={live.index} onSelect={setIndex} />
           </div>
-          <PreviewPanel
-            live={live}
-            online={Boolean(status?.healthy)}
-          />
+          <PreviewPanel live={live} online={Boolean(status?.healthy)} />
         </div>
       </main>
 

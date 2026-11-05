@@ -88,6 +88,7 @@ Points clés :
   Sélectionner un chant le charge dans l'éditeur et l'envoie automatiquement en LIVE.
   Les détails secondaires (auteur, langue, catégorie, recueil) restent repliés dans l'éditeur.
   Le programme peut être créé directement depuis son onglet ;
+
   choisir un élément du programme ou une diapositive le projette. Une référence Bible de plage,
   par exemple `Jaona 3:1-19`, sélectionne la même plage qu’un Maj+clic et la projette
   automatiquement. Les passages peuvent aussi être ajoutés au programme. Dans l'aperçu LIVE, `Ctrl+W` ou le
@@ -112,6 +113,23 @@ Points clés :
 - **Données utilisateur** : `%LOCALAPPDATA%\ChurchPresentation` (Windows) ou
   `~/.local/share/church-presentation` (Linux) — jamais dans le répertoire
   d'installation. Surcharge possible avec `CHURCH_DATA_DIR`.
+
+## Importer des chants
+
+Dans l'onglet **Chants**, le bouton **Importer** accepte plusieurs fichiers `.txt`,
+`.md`, `.json` et `.pptx` à la fois :
+
+- `.txt` : titre sur la première ligne, paroles ensuite ;
+- `.md` : titre sous forme de titre Markdown (`# Titre`), paroles ensuite ;
+- `.json` : un objet `{ "title": "...", "lyrics": "..." }`, un tableau de ces
+  objets, un objet `{ "songs": [...] }` ou l'ancien format Hira
+  `{ "table_hira": [...] }` ;
+- `.pptx` : un fichier crée un chant ; son nom devient le titre et le texte des
+  diapositives, dans leur ordre de présentation, devient les paroles.
+
+Chaque chant doit avoir un titre et des paroles. Les imports réussis sont ajoutés
+à la bibliothèque sans remplacer les chants existants ; les erreurs sont
+signalées fichier par fichier. Les autres formats ne sont pas interprétés.
 
 ## Variables d'environnement
 

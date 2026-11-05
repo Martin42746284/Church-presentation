@@ -1,7 +1,9 @@
-import { Fragment, useMemo, useState } from "react";
-import { Plus, Search } from "lucide-react";
+import { Fragment, useMemo, useRef, useState } from "react";
+import { FileUp, LoaderCircle, Plus, Search } from "lucide-react";
 import { Btn } from "@app/components/ui";
 import type { LibrarySong } from "@app/api";
+
+type ImportResult = { imported: number; errors: string[] };
 
 const uniq = (values: string[]) =>
   [...new Set(values.map((value) => value.trim()).filter(Boolean))].sort((a, b) =>
@@ -17,14 +19,35 @@ export function SongLibrary({
   selectedId,
   onSelect,
   onCreate,
+  onImport,
 }: {
   songs: LibrarySong[];
   selectedId: string | null;
   onSelect: (id: string) => void;
   onCreate: () => void;
+  onImport: (files: File[]) => Promise<ImportResult>;
 }) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("");
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<ImportResult | null>(null);
+  const fileInput = useRef<HTMLInputElement>(null);
+
+  const importFiles = async (files: File[]) => {
+    if (files.length === 0) return;
+    setImporting(true);
+    setImportResult(null);
+    try {
+      setImportResult(await onImport(files));
+    } catch (error) {
+      setImportResult({
+        imported: 0,
+        errors: [error instanceof Error ? error.message : String(error)],
+      });
+    } finally {
+      setImporting(false);
+    }
+  };
 
   const collections = useMemo(() => uniq(songs.map((song) => song.collection)), [songs]);
   const categories = useMemo(() => uniq(songs.map((song) => song.category)), [songs]);
@@ -135,10 +158,53 @@ export function SongLibrary({
         )}
       </ul>
 
-      <footer className="border-t p-2">
-        <Btn onClick={onCreate} className="w-full justify-center">
-          <Plus size={14} /> Nouveau chant
-        </Btn>
+      <footer className="shrink-0 border-t p-2">
+        <input
+          ref={fileInput}
+          type="file"
+          accept=".txt,.md,.json,.pptx"
+          multiple
+          aria-label="Fichiers à importer"
+          className="sr-only"
+          onChange={(event) => {
+            void importFiles(Array.from(event.target.files ?? []));
+            event.target.value = "";
+          }}
+        />
+        <div className="grid grid-cols-2 gap-2">
+          <Btn
+            variant="outline"
+            className="min-w-0 justify-center px-1.5 text-xs"
+            onClick={() => fileInput.current?.click()}
+            disabled={importing}
+            title="TXT : titre sur la première ligne · MD : titre en # · PPTX : texte des diapositives"
+          >
+            {importing ? <LoaderCircle size={14} className="animate-spin" /> : <FileUp size={14} />}
+            Importer
+          </Btn>
+          <Btn
+            onClick={onCreate}
+            className="min-w-0 justify-center px-1.5 text-xs"
+            disabled={importing}
+          >
+            <Plus size={14} /> Nouveau
+          </Btn>
+        </div>
+        {importResult && (
+          <div
+            role={importResult.errors.length > 0 ? "alert" : "status"}
+            className={`mt-2 max-h-24 overflow-y-auto whitespace-pre-wrap text-xs ${
+              importResult.errors.length > 0 ? "text-destructive" : "text-muted-foreground"
+            }`}
+          >
+            {importResult.imported > 0 && `${importResult.imported} chant(s) importé(s).`}
+            {importResult.errors.length > 0 &&
+              `${importResult.imported > 0 ? "\n" : ""}${importResult.errors.join("\n")}`}
+            {importResult.imported === 0 &&
+              importResult.errors.length === 0 &&
+              "Aucun chant trouvé."}
+          </div>
+        )}
       </footer>
     </>
   );
