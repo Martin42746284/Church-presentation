@@ -547,7 +547,7 @@ export function ConsolePage({ onOpenWorkspace }: { onOpenWorkspace: () => void }
   useProjectionBridge();
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-6xl flex-col gap-4 p-6">
+    <div className="mx-auto flex h-full min-h-0 max-w-6xl flex-col gap-4 overflow-y-auto p-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl font-semibold">Church Presentation</h1>
