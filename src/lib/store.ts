@@ -98,6 +98,11 @@ export const goLive = (
     ...s,
     live: { slides, index, blank: "none", programId, songId, source, lyricsVisible: true },
   }));
+export const resetLive = () =>
+  setState((s) => ({
+    ...s,
+    live: { slides: [], index: 0, blank: "none", lyricsVisible: true },
+  }));
 export const setIndex = (i: number) =>
   setState((s) => ({ ...s, live: { ...s.live, index: Math.max(0, Math.min(s.live.slides.length - 1, i)) } }));
 export const setBlank = (b: Live["blank"]) =>

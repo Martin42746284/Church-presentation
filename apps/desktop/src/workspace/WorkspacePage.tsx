@@ -173,10 +173,6 @@ export function WorkspacePage({ onOpenConsole }: { onOpenConsole: () => void }) 
     }
     if (program && live.programId === program.id && !sameSlides(live.slides, slides)) {
       goLive(slides, Math.min(live.index, Math.max(0, slides.length - 1)), program.id);
-      return;
-    }
-    if (program && !live.programId && !live.songId && live.slides.length === 0) {
-      goLive(slides, 0, program.id);
     }
   }, [program, slides, song, songSlides, live]);
 
